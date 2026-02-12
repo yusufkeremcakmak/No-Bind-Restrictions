@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "nobindrestrictions",
+  "version": "${version}",
+  "name": "No Bind Restrictions",
+  "description": "Client-side Fabric mod.",
+  "authors": ["yusufkeremcakmak"],
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.yusufkeremcakmak.nobr.NoBindRestrictionsClientMod"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "fabric-api": "*",
+    "minecraft": "~1.21.11",
+    "java": ">=21"
+  }
+}
