@@ -9,11 +9,15 @@
   "entrypoints": {
     "client": [
       "com.yusufkeremcakmak.nobr.NoBindRestrictionsClientMod"
+    ],
+    "modmenu": [
+      "com.yusufkeremcakmak.nobr.ui.NoBindRestrictionsModMenu"
     ]
   },
   "depends": {
     "fabricloader": ">=0.16.0",
     "fabric-api": "*",
+    "cloth-config": "*",
     "minecraft": "~1.21.11",
     "java": ">=21"
   }

@@ -9,6 +9,9 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.util.Identifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,10 +21,31 @@ import java.util.Map;
 import java.util.UUID;
 
 public final class ChainManager {
+    private static final Logger LOGGER = LoggerFactory.getLogger("NoBindRestrictions");
+
     private final Map<UUID, KeyBinding> keyBindingsByChainId = new HashMap<>();
     private final Map<KeyBinding, ActionChain> chainsByKeyBinding = new HashMap<>();
     private final List<RunningChain> runningChains = new ArrayList<>();
     private final InputSimulation inputSimulation = new InputSimulation();
+
+    private static KeyBinding.Category cachedCategory;
+
+    private static KeyBinding.Category getOrCreateCategory() {
+        if (cachedCategory == null) {
+            cachedCategory = KeyBinding.Category.create(Identifier.of("nobindrestrictions", "chains"));
+        }
+        return cachedCategory;
+    }
+
+    private static KeyBinding registerKeyBinding(KeyBinding keyBinding) {
+        try {
+            return KeyBindingHelper.registerKeyBinding(keyBinding);
+        } catch (IllegalStateException e) {
+            // GameOptions already initialised — new chain won't be triggerable until restart
+            LOGGER.warn("New chain key binding added at runtime; restart the game for it to take effect.");
+            return keyBinding;
+        }
+    }
 
     public void rebuild(NoBindRestrictionsConfig config) {
         chainsByKeyBinding.clear();
@@ -43,8 +67,12 @@ public final class ChainManager {
                 entry.id = chainId.toString();
             }
 
-            KeyBinding keyBinding = keyBindingsByChainId.computeIfAbsent(chainId, id -> KeyBindingHelper.registerKeyBinding(
-                    new KeyBinding("key.nobr.chain." + id, parseKey(entry.keyType, entry.keyCode), "key.categories.nobr")
+            KeyBinding keyBinding = keyBindingsByChainId.computeIfAbsent(chainId, id -> registerKeyBinding(
+                    new KeyBinding(
+                        "key.nobr.chain." + id,
+                        parseKey(entry.keyType, entry.keyCode).getCode(),
+                        getOrCreateCategory()
+                    )
             ));
 
             keyBinding.setBoundKey(parseKey(entry.keyType, entry.keyCode));

@@ -11,7 +11,7 @@ public final class RightClickAction implements ChainAction {
 
     @Override
     public int execute(MinecraftClient client, InputSimulation inputSimulation) {
-        inputSimulation.pressForOneTick(client.options.useKey);
+        inputSimulation.click(client.options.useKey);
         return 0;
     }
 }

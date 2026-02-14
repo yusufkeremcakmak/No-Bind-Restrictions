@@ -25,7 +25,7 @@ public final class HotbarSwapAction implements ChainAction {
     @Override
     public int execute(MinecraftClient client, InputSimulation inputSimulation) {
         if (client.player != null) {
-            client.player.getInventory().selectedSlot = slot;
+            client.player.getInventory().setSelectedSlot(slot);
         }
         return 0;
     }

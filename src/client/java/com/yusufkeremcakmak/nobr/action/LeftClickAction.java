@@ -11,7 +11,7 @@ public final class LeftClickAction implements ChainAction {
 
     @Override
     public int execute(MinecraftClient client, InputSimulation inputSimulation) {
-        inputSimulation.pressForOneTick(client.options.attackKey);
+        inputSimulation.click(client.options.attackKey);
         return 0;
     }
 }

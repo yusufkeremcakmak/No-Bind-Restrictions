@@ -4,11 +4,10 @@ import com.yusufkeremcakmak.nobr.NoBindRestrictionsClientMod;
 import com.yusufkeremcakmak.nobr.action.ActionCodec;
 import com.yusufkeremcakmak.nobr.config.NoBindRestrictionsConfig;
 import com.yusufkeremcakmak.nobr.runtime.ChainManager;
+import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
-import me.shedaniel.clothconfig2.api.Tooltip;
-import me.shedaniel.clothconfig2.gui.entries.AbstractConfigListEntry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
@@ -41,7 +40,7 @@ public final class ConfigScreenBuilder {
         ConfigCategory general = builder.getOrCreateCategory(Text.translatable("nobr.config.general"));
         general.addEntry(entryBuilder
                 .startBooleanToggle(Text.translatable("nobr.config.master_enabled"), config.masterEnabled)
-                .setTooltip(Tooltip.of(Text.translatable("nobr.config.master_enabled.tooltip")))
+            .setTooltip(Text.translatable("nobr.config.master_enabled.tooltip"))
                 .setSaveConsumer(value -> config.masterEnabled = value)
                 .build());
 
@@ -75,7 +74,7 @@ public final class ConfigScreenBuilder {
             NoBindRestrictionsConfig.ChainConfigEntry chain,
             Set<String> chainsToRemove
     ) {
-        List<AbstractConfigListEntry<?>> entries = new ArrayList<>();
+        List<AbstractConfigListEntry> entries = new ArrayList<>();
 
         entries.add(entryBuilder
                 .startStrField(Text.translatable("nobr.config.chain_name"), chain.name)
@@ -99,7 +98,7 @@ public final class ConfigScreenBuilder {
         InputUtil.Key currentKey = ChainManager.parseKey(chain.keyType, chain.keyCode);
         entries.add(entryBuilder
                 .startKeyCodeField(Text.translatable("nobr.config.chain_key"), currentKey)
-                .setSaveConsumer(key -> {
+                .setKeySaveConsumer(key -> {
                     chain.keyType = ChainManager.keyTypeOf(key);
                     chain.keyCode = ChainManager.keyCodeOf(key);
                 })
@@ -107,8 +106,11 @@ public final class ConfigScreenBuilder {
 
         entries.add(entryBuilder
                 .startStrList(Text.translatable("nobr.config.chain_actions"), new ArrayList<>(chain.actions))
-                .setTooltip(Tooltip.of(Text.translatable("nobr.config.chain_actions.tooltip")))
-                .setCellErrorSupplier(value -> validateActionLine(value).map(Text::of).orElse(null))
+            .setTooltip(Text.translatable("nobr.config.chain_actions.tooltip"))
+            .setCellErrorSupplier(value -> {
+                    java.util.Optional<String> err = validateActionLine(value);
+                    return err.isPresent() ? java.util.Optional.of(Text.literal(err.get())) : java.util.Optional.empty();
+                })
                 .setSaveConsumer(values -> {
                     List<String> normalized = new ArrayList<>();
                     for (String line : values) {
@@ -126,11 +128,14 @@ public final class ConfigScreenBuilder {
     }
 
     private static java.util.Optional<String> validateActionLine(String line) {
+        if (line == null || line.trim().isEmpty()) {
+            return java.util.Optional.empty();
+        }
         try {
             ActionCodec.stringify(ActionCodec.parse(line));
             return java.util.Optional.empty();
         } catch (Exception ex) {
-            return java.util.Optional.of("Invalid action format");
+            return java.util.Optional.of("Invalid action. Use: JUMP, SNEAK, LEFT_CLICK, RIGHT_CLICK, HOTBAR:<slot>, DELAY:<ms>");
         }
     }
 
