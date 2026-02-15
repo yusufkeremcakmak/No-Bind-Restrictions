@@ -4,7 +4,9 @@
   "version": "${version}",
   "name": "No Bind Restrictions",
   "description": "Client-side Fabric mod.",
-  "authors": ["yusufkeremcakmak"],
+  "authors": [
+    "yusufkeremcakmak"
+  ],
   "environment": "client",
   "entrypoints": {
     "client": [
@@ -20,5 +22,11 @@
     "cloth-config": "*",
     "minecraft": "~1.21.11",
     "java": ">=21"
-  }
+  },
+  "mixins": [
+    {
+      "config": "nobindrestrictions.client.mixins.json",
+      "environment": "client"
+    }
+  ]
 }

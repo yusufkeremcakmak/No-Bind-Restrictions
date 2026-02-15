@@ -2,6 +2,7 @@ package com.yusufkeremcakmak.nobr;
 
 import com.yusufkeremcakmak.nobr.config.ConfigManager;
 import com.yusufkeremcakmak.nobr.config.NoBindRestrictionsConfig;
+import com.yusufkeremcakmak.nobr.dualbind.DualBindStorage;
 import com.yusufkeremcakmak.nobr.runtime.ChainManager;
 import com.yusufkeremcakmak.nobr.ui.FirstLaunchWarningScreen;
 import net.fabricmc.api.ClientModInitializer;
