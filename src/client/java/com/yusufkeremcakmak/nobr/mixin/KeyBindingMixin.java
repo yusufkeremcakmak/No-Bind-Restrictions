@@ -1,5 +1,6 @@
 package com.yusufkeremcakmak.nobr.mixin;
 
+import com.yusufkeremcakmak.nobr.dualbind.DualBindAccessor;
 import com.yusufkeremcakmak.nobr.dualbind.DualBindStorage;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.input.KeyInput;

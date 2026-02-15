@@ -1,5 +1,6 @@
 package com.yusufkeremcakmak.nobr.mixin;
 
+import com.yusufkeremcakmak.nobr.dualbind.DualBindAccessor;
 import com.yusufkeremcakmak.nobr.dualbind.DualBindState;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;

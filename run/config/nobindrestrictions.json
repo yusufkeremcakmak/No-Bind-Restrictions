@@ -1,0 +1,39 @@
+{
+  "masterEnabled": true,
+  "firstLaunchWarningPending": true,
+  "chains": [
+    {
+      "id": "08d3b32b-a125-4ee2-9ea9-274f7c29257b",
+      "name": "Chain 683",
+      "enabled": true,
+      "keyType": "KEYSYM",
+      "keyCode": -1,
+      "actions": [
+        "JUMP"
+      ]
+    },
+    {
+      "id": "deeef396-33e0-4617-bbcf-a1c8bd6236b8",
+      "name": "Chain 986",
+      "enabled": true,
+      "keyType": "KEYSYM",
+      "keyCode": -1,
+      "actions": [
+        "JUMP"
+      ]
+    },
+    {
+      "id": "4d92951b-7742-47dd-b7c7-07986f1cef2d",
+      "name": "stun slam",
+      "enabled": true,
+      "keyType": "KEYSYM",
+      "keyCode": 57,
+      "actions": [
+        "HOTBAR:4",
+        "LEFT_CLICK",
+        "HOTBAR:8",
+        "LEFT_CLICK"
+      ]
+    }
+  ]
+}

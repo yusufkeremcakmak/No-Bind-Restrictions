@@ -1,4 +1,4 @@
-package com.yusufkeremcakmak.nobr.mixin;
+package com.yusufkeremcakmak.nobr.dualbind;
 
 import net.minecraft.client.util.InputUtil;
 
